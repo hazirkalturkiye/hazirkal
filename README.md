@@ -5,7 +5,7 @@
 Deprem, sel, yangın ya da yolda kalınan bir gece: Hazırkal ilk yardım adımlarını, ekibini, buluşma noktalarını ve önemli belgelerini telefonunda, internet olmadan hazır tutar.
 
 - Site: https://hazirkal.com
-- Web uygulaması (iPhone ve Android): https://uygulama.hazirkal.com
+- Uygulama: https://uygulama.hazirkal.com (Android'de ve iOS'ta web uygulaması olarak çalışır)
 - Kaynak kod: https://github.com/hazirkalturkiye/hazirkal
 - Durum: **beta**. İlk yardım içeriği doktor kontrolünden geçiyor.
 
@@ -24,7 +24,6 @@ Resmî uygulamaların (AFAD Acil, HAYAT 112 Acil, Türk Kızılay) yerini tutmaz
 
 - Uygulama hiçbir sunucuya istek göndermez. Sayfaya gömülü CSP `connect-src 'none'` ile arka plan bağlantılarını tarayıcı düzeyinde engeller.
 - Her şey telefonda kalır (localStorage, IndexedDB). Hesap, analiz, reklam, takip kodu yok.
-- Hazırlanan Android dosyasında (APK) `INTERNET` izni olmayacak.
 - Güvenlik açığı bildirimi: [SECURITY.md](SECURITY.md).
 
 Kendin test et: telefonu uçak moduna al ve uygulamayı aç; ya da tarayıcının geliştirici araçlarında ağ sekmesine bak.

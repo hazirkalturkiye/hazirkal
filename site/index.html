@@ -53,10 +53,10 @@
           <a class="btn ikinci" href="#iphone">iPhone'a ekle</a>
         </div>
         <div class="dugmeler yakinda-goster">
-          <a class="btn ana" href="https://uygulama.hazirkal.com/">Uygulamayı aç</a>
+          <a class="btn ana" href="https://uygulama.hazirkal.com/">Uygulamayı kur</a>
           <a class="btn ikinci" href="#kurulum">Nasıl kurulur</a>
         </div>
-        <p class="not yakinda-goster"><b>Beta açık.</b> Web uygulaması iPhone ve Android'de çalışır; Android dosyası (APK) yakında. İlk yardım içeriği doktor kontrolünden geçiyor.</p>
+        <p class="not yakinda-goster"><b>Uygulamayı kur:</b> Android'de ve iOS'ta (iPhone, iPad) web uygulaması olarak çalışır. Ücretsiz, hesap istemez, kurduktan sonra internet gerekmez. Beta sürüm: ilk yardım içeriği doktor kontrolünden geçiyor.</p>
         <p class="not yayinda">Ücretsiz, açık kaynak, hesap istemez. Kurduktan sonra internet gerekmez.</p>
       </div>
       <div class="telefon"><img src="img/ekran-home.webp" width="540" height="1168" alt="Hazırkal ana ekranı: 112 acil çağrı düğmesi, ekip görevleri ve hızlı ilk yardım kutuları" fetchpriority="high"></div>
@@ -118,7 +118,7 @@
   <section class="bolum" id="kurulum" aria-labelledby="kurulum-b">
     <div class="kap">
       <h2 id="kurulum-b">Kurulum bir dakika sürer</h2>
-      <p class="giris-yazi">Bir kez internet varken kur, sonra unut. Mağaza, hesap ya da ödeme yok.</p>
+      <p class="giris-yazi"><span class="yakinda-goster">Hazırkal Android'de ve iOS'ta web uygulaması olarak çalışır. </span>Bir kez internet varken kur, sonra unut. Mağaza, hesap ya da ödeme yok.</p>
       <div class="kurulum">
         <div>
           <h3>Android</h3>
@@ -127,7 +127,6 @@
             <li>Sağ üstteki ⋮ menüden "Uygulamayı yükle" ya da "Ana ekrana ekle"yi seç.</li>
             <li>Ana ekrandaki Hazırkal'ı internet varken bir kez aç. Sonra internetsiz çalışır.</li>
           </ol>
-          <p class="not yakinda-goster"><b>APK yakında:</b> internet izni hiç olmayan Android dosyası hazırlanıyor. Çıkınca bu sayfada imzasıyla birlikte yayınlanacak.</p>
           <ol class="yayinda">
             <li>Bu sayfadan Hazırkal'ın APK dosyasını indir.</li>
             <li>Dosyayı aç. Telefon izin isterse "Bu kaynaktan izin ver"i seç.</li>
@@ -136,7 +135,7 @@
           <p class="not yayinda">İndirdiğin dosyanın gerçekten bizim olduğunu aşağıdaki SHA-256 özetiyle doğrulayabilirsin. Hazırkal'ı yalnızca bu siteden indir; başka yerdeki kopyalar sahte olabilir.</p>
         </div>
         <div id="iphone">
-          <h3>iPhone</h3>
+          <h3>iPhone ve iPad (iOS)</h3>
           <ol>
             <li><a href="https://uygulama.hazirkal.com/">uygulama.hazirkal.com</a> adresini <b>Safari</b>'de aç.</li>
             <li>Paylaş düğmesine dokun, "Ana Ekrana Ekle"yi seç.</li>
@@ -161,12 +160,12 @@
   <section class="bolum" id="surum" aria-labelledby="surum-b">
     <div class="kap">
       <h2 id="surum-b">Sürüm ve doğrulama</h2>
-      <p class="giris-yazi">Her sürümde neyin değiştiğini ve dosyanın özetini burada yayınlıyoruz.</p>
+      <p class="giris-yazi">Yayındaki sürümü ve kaynak kodunu burada görebilirsin.</p>
       <dl class="surum">
-        <dt>Sürüm</dt><dd>0.9 beta, web uygulaması (Kasım 2026)</dd>
-        <dt>Android dosyası</dt><dd>Hazırlanıyor: hazirkal.apk, internet izni olmadan</dd>
-        <dt>SHA-256</dt><dd>APK ile burada yayınlanacak</dd>
-        <dt>İmza parmak izi</dt><dd>APK ile burada yayınlanacak</dd>
+        <dt>Sürüm</dt><dd>0.9 beta, web uygulaması: Android ve iOS (Kasım 2026)</dd>
+        <dt class="yayinda">Android dosyası</dt><dd class="yayinda">hazirkal.apk</dd>
+        <dt class="yayinda">SHA-256</dt><dd class="yayinda"><!-- yayın günü doldur --></dd>
+        <dt class="yayinda">İmza parmak izi</dt><dd class="yayinda"><!-- yayın günü doldur --></dd>
         <dt>Kaynak kodu</dt><dd><a href="https://github.com/hazirkalturkiye/hazirkal">github.com/hazirkalturkiye/hazirkal</a> (GPL-3.0; içerik CC BY-SA 4.0)</dd>
       </dl>
     </div>
@@ -176,22 +175,22 @@
     <div class="kap">
       <h2 id="sss-b">Sorular</h2>
       <div class="sss">
-        <details><summary>Gerçekten internete bağlanmıyor mu?</summary><p>Uygulama hiçbir sunucuya bilgi göndermez, kimseyi takip etmez. Web uygulamasında sayfaya gömülü güvenlik kuralı arka planda bağlantı kurulmasını tarayıcı düzeyinde engeller; tarayıcı yalnızca yeni sürüm olup olmadığına bakar (aşağıda). Yakında çıkacak Android dosyasında ise internet izni hiç yok: işletim sistemi bağlanmasına izin vermez.</p></details>
-        <details><summary>İnternete bağlanmadığını kendim nasıl test ederim?</summary><p>En kolayı: telefonu uçak moduna al ve uygulamayı aç; her şey çalışır. Teknik bilgin varsa APK'nın izin listesini (örneğin App Manager uygulamasıyla ya da aapt aracıyla) inceleyebilir, listede internet izni olmadığını görebilirsin. Kaynak kodunda hiçbir ağ isteği olmadığını da kendin kontrol edebilirsin.</p></details>
-        <details><summary>Neden iPhone sürümü internet varken sürüm kontrolü yapıyor?</summary><p>Apple, Türkiye'de App Store dışından uygulama kurulmasına izin vermiyor; bu yüzden iPhone'da Hazırkal ana ekrana eklenen bir web uygulamasıdır. Web uygulamalarında telefonun tarayıcısı, internete bağlıyken yeni sürüm olup olmadığına kendisi bakar. Bu tarayıcının özelliğidir, kapatılamaz. Bu kontrolde yalnızca sürüm dosyası istenir; senin girdiğin hiçbir bilgi gönderilmez. Yeni sürüm varsa indirilir ve güncellemeden önce sana sorulur. İleride bir App Store sürümünü de değerlendireceğiz.</p></details>
+        <details><summary>Gerçekten internete bağlanmıyor mu?</summary><p>Uygulama hiçbir sunucuya bilgi göndermez, kimseyi takip etmez. Web uygulamasında sayfaya gömülü güvenlik kuralı arka planda bağlantı kurulmasını tarayıcı düzeyinde engeller; tarayıcı yalnızca yeni sürüm olup olmadığına bakar (aşağıda).<span class="yayinda"> Android dosyasında ise internet izni hiç yok: işletim sistemi bağlanmasına izin vermez.</span></p></details>
+        <details><summary>İnternete bağlanmadığını kendim nasıl test ederim?</summary><p>En kolayı: telefonu uçak moduna al ve uygulamayı aç; her şey çalışır. <span class="yakinda-goster">Teknik bilgin varsa uygulama.hazirkal.com'u bilgisayarda aç ve tarayıcının geliştirici araçlarındaki Ağ sekmesine bak: uygulamayı kullanırken hiçbir yere istek gitmez.</span><span class="yayinda">Teknik bilgin varsa APK'nın izin listesini (örneğin App Manager uygulamasıyla ya da aapt aracıyla) inceleyebilir, listede internet izni olmadığını görebilirsin.</span> Kaynak kodunda hiçbir ağ isteği olmadığını da kendin kontrol edebilirsin.</p></details>
+        <details><summary>Neden internet varken sürüm kontrolü yapıyor?</summary><p>Hazırkal Android'de ve iOS'ta ana ekrana eklenen bir web uygulaması olarak çalışır. Web uygulamalarında telefonun tarayıcısı, internete bağlıyken yeni sürüm olup olmadığına kendisi bakar. Bu tarayıcının özelliğidir, kapatılamaz. Bu kontrolde yalnızca sürüm dosyası istenir; senin girdiğin hiçbir bilgi gönderilmez. Yeni sürüm varsa indirilir ve güncellemeden önce sana sorulur.</p></details>
         <details><summary>Verilerim nerede? Telefonumu değiştirirsem ne olur?</summary><p>Her şey yalnızca senin telefonunda durur. Uygulamanın Ayarlar bölümündeki "Yedekle" ile ekibini, buluşma noktalarını ve listelerini yeni telefona taşıyabilirsin. Belge kasası ayrıca ve şifreli olarak yedeklenir.</p></details>
         <details><summary>Belge kasasının parolasını unutursam?</summary><p>Parolayı biz bilmeyiz ve kurtaramayız; belgelerin güvende olmasının nedeni bu. Parolayı kâğıda yazıp evde güvenli bir yerde sakla.</p></details>
         <details><summary>Pil ve yer harcar mı?</summary><p>Arka planda çalışmaz; açmadığın sürece pil harcamaz. Telefonda yaklaşık 10 MB yer kaplar.</p></details>
         <details><summary>Ücretli mi? Reklam var mı?</summary><p>Uygulama ücretsiz ve reklamsız. Hiçbir zaman ücretli olmayacak, içine hiçbir zaman reklam konmayacak.</p></details>
         <details><summary>Haritaya basınca neden Google Maps açılmıyor?</summary><p>Hazırkal internetsiz çalışsın diye konumları ve rotaları açık kaynaklı <b>Organic Maps</b> ile açar. Google Maps çoğu zaman internet ister; şebeke çökünce işe yaramayabilir. İnternet varken Google Play ya da App Store'dan Organic Maps'i kur, ilinin haritasını indir. Sonra Hazırkal'da bir konuma dokununca harita internetsiz açılır.</p></details>
-        <details><summary>Neden Google Play'de değil?</summary><p>Herkes bir mağazaya bağlı kalmadan, doğrudan ve ücretsiz kurabilsin diye. Android dosyasını imzalıyor, özetini ve imza parmak izini bu sayfada yayınlıyoruz; böylece sahtesinden ayırt edebilirsin.</p></details>
-        <details><summary>Sahte bir Hazırkal'ı nasıl anlarım?</summary><p>Hazırkal'ı yalnızca hazirkal.com'dan indir. Ücret isteyen, hesap açtıran ya da reklam gösteren bir sürüm bizim değildir. İndirdiğin dosyanın SHA-256 özeti bu sayfadakiyle aynı olmalı.</p></details>
+        <details><summary>Neden Google Play'de değil?</summary><p>Herkes bir mağazaya ya da hesaba bağlı kalmadan, doğrudan ve ücretsiz kurabilsin diye. <span class="yakinda-goster">Hazırkal'ı uygulama.hazirkal.com adresinden web uygulaması olarak kurarsın; Android'de ve iOS'ta çalışır.</span><span class="yayinda">Android dosyasını imzalıyor, özetini ve imza parmak izini bu sayfada yayınlıyoruz; böylece sahtesinden ayırt edebilirsin.</span></p></details>
+        <details><summary>Sahte bir Hazırkal'ı nasıl anlarım?</summary><p><span class="yakinda-goster">Hazırkal'ı yalnızca uygulama.hazirkal.com adresinden kur.</span><span class="yayinda">Hazırkal'ı yalnızca hazirkal.com'dan indir.</span> Ücret isteyen, hesap açtıran ya da reklam gösteren bir sürüm bizim değildir.<span class="yayinda"> İndirdiğin dosyanın SHA-256 özeti bu sayfadakiyle aynı olmalı.</span></p></details>
         <details><summary>Bilgiler nereden geliyor?</summary><p>İlk yardım bölümü Sağlık Bakanlığı'nın İlk Yardım Uygulamaları Beceri Rehberi'ne, deprem bölümü AFAD'ın önerilerine göre hazırlandı. Diğer konuların kaynakları uygulamanın Kaynaklar sayfasında tek tek yazılı.</p></details>
         <details><summary>İlk yardım kursunun yerini tutar mı?</summary><p>Hayır. Hazırkal hatırlatır ve yol gösterir; elle yapılan uygulamayı ancak bir kursta öğrenirsin. Bir ilk yardım kursuna katıl, acil durumda önce 112'yi ara.</p></details>
         <details><summary>Okulumda, işyerimde, sitemizde kullanabilir miyiz?</summary><p>Evet, herkes için ücretsiz. Kurumunuza özel yerler, ekipler ve görevlerle hazırlanmış bir sürüm isterseniz aşağıdaki formdan yazın.</p></details>
         <details><summary>Benim ilim de var mı?</summary><p>81 ilin hepsi var. Kurulumda ilini seçersin; yılanlar, akrepler, deniz canlıları, iklim ve deprem bilgisi iline göre gelir. Yayılış bilgisi bölge düzeyinde. Kaçış ve buluşma noktalarını ise herkes kendi evine göre ekler. İlinle ilgili eksik ya da yanlış bir bilgi görürsen formdan yaz, birlikte düzeltelim.</p></details>
         <details><summary>Beta ne demek?</summary><p>Uygulama çalışıyor ve kullanılabilir, ama ilk yardım bölümü doktorlarımızın kontrolünden geçiyor ve her hafta düzeltme yapıyoruz. Bir hata ya da eksik görürsen formdan yaz. Web uygulaması internete bağlandığında düzeltmeleri kendiliğinden alır.</p></details>
-        <details><summary>İngilizce ya da başka dillerde olacak mı?</summary><p>İngilizce sürüm hazırlanıyor. Başka dillere çeviri için gönüllü arıyoruz.</p></details>
+        <details><summary>Başka dillerde var mı?</summary><p>Şu an yalnızca Türkçe. Başka dillere çeviri için gönüllü arıyoruz.</p></details>
       </div>
     </div>
   </section>
@@ -253,7 +252,7 @@
 
 <div class="cubuk">
   <p>Ücretsiz, internetsiz · beta</p>
-  <a class="btn" href="https://uygulama.hazirkal.com/">Uygulamayı aç</a>
+  <a class="btn" href="https://uygulama.hazirkal.com/">Uygulamayı kur</a>
 </div>
 </body>
 </html>
