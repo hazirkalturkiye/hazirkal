@@ -7,7 +7,7 @@ Kullanım:
 
 Özel klasör (depoya girmez): yamalar.json  [{"dosya","genel","kisisel"}, ...]  ve  ekler/*.js
 """
-import os, sys, json, shutil, zipfile, hashlib, base64
+import os, re, sys, json, shutil, zipfile, hashlib, base64
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "src")
@@ -62,6 +62,8 @@ for d in (IMG, SND):
         for f in sorted(fs):
             fp = os.path.join(r, f); _h.update(os.path.relpath(fp, d).encode()); _h.update(open(fp, "rb").read())
 for _f in ("pdf.min.js", "pdf.worker.min.js"): _h.update(open(PDFDIR + _f, "rb").read())
+for _f in sorted(os.listdir(os.path.join(SRC, "ikon"))): _h.update(_f.encode()); _h.update(open(os.path.join(SRC, "ikon", _f), "rb").read())
+_h.update(json.dumps(CONF, sort_keys=True, ensure_ascii=False).encode())  # simgeler ve manifest de sürüm anahtarına girer
 ver = _h.hexdigest()[:8]
 
 def b64f(p): return base64.b64encode(open(p, "rb").read()).decode()
@@ -78,11 +80,11 @@ CSPS = {}
 def page(pwa):
     head = ('<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">'
             '<link rel="apple-touch-icon" href="icon-192.png">') if pwa else ""
-    body = (js if pwa else (imgmap() + "\n" + sndmap() + "\n" + js)).replace("</script", "<\\/script")
+    body = re.sub(r"</script", "<\\/script", js if pwa else (imgmap() + "\n" + sndmap() + "\n" + js), flags=re.I)
     extra = ""; hashes = [sha(body)]
     if not pwa:  # tek dosyada PDF okuyucu gömülü; işçi ana iş parçacığında çalışır (file:// altında Worker açılamaz)
-        lib = open(PDFDIR + "pdf.min.js", encoding="utf-8").read().replace("</script", "<\\/script")
-        wk = open(PDFDIR + "pdf.worker.min.js", encoding="utf-8").read().replace("</script", "<\\/script")
+        lib = re.sub(r"</script", "<\\/script", open(PDFDIR + "pdf.min.js", encoding="utf-8").read(), flags=re.I)
+        wk = re.sub(r"</script", "<\\/script", open(PDFDIR + "pdf.worker.min.js", encoding="utf-8").read(), flags=re.I)
         extra = "<script>" + lib + "</script><script>" + wk + "</script>"; hashes += [sha(lib), sha(wk)]
     # İnternet kilidi: sayfa hiçbir yere bağlanamaz (connect-src 'none'); yalnızca gömülü/aynı kaynaktan betik çalışır.
     csp = ("default-src 'none'; script-src 'self' " + " ".join(hashes) + "; style-src 'unsafe-inline'; "
@@ -137,7 +139,7 @@ self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(func
 // Etkinleşince açık sayfayı hemen devral: ilk açılışta görseller de önbellekten gelir, internet kapansa bile görünür.
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x!==C}).map(function(x){return caches.delete(x)}))}).then(function(){return self.clients.claim()}).then(function(){return say({hk:'hazir'})}))});
 self.addEventListener('message',function(e){if(e.data==='skip')self.skipWaiting()});
-self.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(function(r){return r||fetch(e.request).catch(function(){return caches.match('./index.html')})}))});
+self.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(function(r){return r||fetch(e.request).catch(function(){if(e.request.mode==='navigate')return caches.match('./index.html');throw new Error('offline')})}))});
 """ % (CONF["ad"], ver, json.dumps(["./img/" + n + ".webp" for n in imgs] + ["./img/t/" + n + ".webp" for n in imgs] + ["./snd/" + n + ".mp3" for n in snds] + ["./pdf/pdf.min.js", "./pdf/pdf.worker.min.js"])))
 HTACCESS = """# %s web uygulaması: Apache (GoDaddy cPanel) ayarları. Bu dosya derleyici tarafından üretilir.
 Options -Indexes

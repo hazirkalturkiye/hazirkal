@@ -6,5 +6,6 @@ deployment:
     - export SITE=$HOME/hazirkal.com/
     - export APP=$HOME/uygulama.hazirkal.com/
     - /bin/mkdir -p $SITE $APP
-    - /bin/cp -R site/. $SITE
-    - /bin/cp -R yayin/uygulama/. $APP
+    # Depoda sembolik bağ varsa dağıtım durur (bağ, belge kökü dışındaki bir dosyayı yayınlayabilir)
+    - test -z "$(/usr/bin/find site yayin/uygulama -type l)" && /bin/cp -R site/. $SITE
+    - test -z "$(/usr/bin/find site yayin/uygulama -type l)" && /bin/cp -R yayin/uygulama/. $APP

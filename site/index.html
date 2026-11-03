@@ -93,13 +93,14 @@
       <h2 id="gizlilik-b">Verin telefonundan çıkmaz</h2>
       <p class="giris-yazi">Afet uygulaması güven ister. Bu yüzden ne yapmadığımızı açıkça yazıyoruz.</p>
       <ul>
-        <li>Android sürümünün internet izni yok: bağlanmak istese de bağlanamaz.</li>
+        <li class="yakinda-goster">Uygulama hiçbir sunucuya bilgi göndermez; sayfaya gömülü güvenlik kuralı arka planda bağlantı kurulmasını tarayıcı düzeyinde engeller.</li>
+        <li class="yayinda">Android sürümünün internet izni yok: bağlanmak istese de bağlanamaz.</li>
         <li>Hesap, e-posta ya da telefon numarası istemez.</li>
         <li>Uygulamada reklam ve takip kodu yok.</li>
         <li>Belgelerin telefonunda, senin parolanla şifreli durur.</li>
         <li>Kaynak kodu açık: söylediklerimizi herkes kontrol edebilir.</li>
       </ul>
-      <p class="dipnot">iPhone'da durum biraz farklı: Apple, Türkiye'de App Store dışından uygulama kurulmasına izin vermiyor. Bu yüzden iPhone'da Hazırkal, ana ekrana eklenen bir web uygulamasıdır. Web uygulamalarında telefonun tarayıcısı, internete bağlıyken yeni sürüm olup olmadığına kendisi bakar; bu tarayıcının özelliğidir ve kapatılamaz. Bu kontrolde yalnızca sürüm dosyası istenir, senin girdiğin hiçbir bilgi gönderilmez; yeni sürüm varsa indirilir ve güncellemeden önce sana sorulur. İnternet hiç olmasa da uygulama tam çalışır. Ayrıntılar: <a href="gizlilik.html">Gizlilik</a>.</p>
+      <p class="dipnot">Bir ayrıntı: Hazırkal, Android'de ve iOS'ta ana ekrana eklenen bir web uygulaması olarak çalışır. Web uygulamalarında telefonun tarayıcısı, internete bağlıyken yeni sürüm olup olmadığına kendisi bakar; bu tarayıcının özelliğidir ve kapatılamaz. Bu kontrolde yalnızca sürüm dosyası istenir, senin girdiğin hiçbir bilgi gönderilmez; yeni sürüm varsa indirilir ve güncellemeden önce sana sorulur. İnternet hiç olmasa da uygulama tam çalışır. Ayrıntılar: <a href="gizlilik.html">Gizlilik</a>.</p>
     </div>
   </section>
 
@@ -230,8 +231,8 @@
           <input id="eposta" name="eposta" type="email" maxlength="200" autocomplete="email">
         </div>
         <div class="tuzak" aria-hidden="true">
-          <label for="web">Bu alanı boş bırak</label>
-          <input id="web" name="web" type="text" tabindex="-1" autocomplete="off">
+          <label for="hk_bos">Bu alanı boş bırak</label>
+          <input id="hk_bos" name="hk_bos" type="text" tabindex="-1" autocomplete="off">
         </div>
         <label class="onay" for="paylas"><input id="paylas" name="paylas" type="checkbox" value="evet"><span>Önerim, adım yazılmadan, herkese açık yapılacaklar listesinde paylaşılabilir.</span></label>
         <button class="btn ana" type="submit">Gönder</button>

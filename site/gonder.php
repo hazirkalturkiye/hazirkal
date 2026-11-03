@@ -26,13 +26,20 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     git('/#katki');
 }
 
+// Form yalnızca hazirkal.com'daki sayfadan gönderilebilir (başka siteye gömülmüş kopyalar ve bir kısım bot elenir)
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$sfs    = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+if (($origin !== '' && $origin !== 'https://hazirkal.com') || ($sfs !== '' && $sfs !== 'same-origin' && $sfs !== 'none')) {
+    git('/gonderilemedi.html');
+}
+
 // Çok büyük istekleri reddet
 if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 65536) {
     git('/gonderilemedi.html');
 }
 
 // Bot kapanı: insanlar bu alanı görmez, botlar doldurur
-if (trim(al('web')) !== '') {
+if (trim(al('hk_bos')) !== '') {
     git('/tesekkurler.html');
 }
 
@@ -78,6 +85,7 @@ $dizin = dirname(__DIR__) . '/hazirkal-veri';   // public_html dışında, yaln�
 if (!is_dir($dizin)) { @mkdir($dizin, 0700); }
 $dosya = $dizin . '/form-sayac';
 $simdi = time();
+if (is_link($dosya)) { git('/gonderilemedi.html'); }   // sayaç dosyası sembolik bağ olamaz
 $fp = @fopen($dosya, 'c+');
 if ($fp === false || !flock($fp, LOCK_EX)) {
     git('/gonderilemedi.html');   // sayaç açılamazsa form kapalı kalır (sınırsız gönderime izin verme)
@@ -123,6 +131,7 @@ $basliklar = [
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: base64',
     'X-Mailer: hazirkal-form',
+    'Auto-Submitted: auto-generated',   // otomatik yanıtlayıcılar bu iletiye cevap yazmaz (RFC 3834)
 ];
 if ($eposta !== '') {
     $basliklar[] = 'Reply-To: ' . $eposta;

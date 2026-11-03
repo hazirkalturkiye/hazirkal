@@ -14,7 +14,7 @@ function lf(){var g=store.get("lastfix",null);if(!g)return null;var la=+g.lat,lo
 function home(){var h=store.get("home",null);return (h&&isFinite(h.lat)&&isFinite(h.lon)&&Math.abs(h.lat)<=90&&Math.abs(h.lon)<=180)?{lat:+h.lat,lon:+h.lon,name:String(h.name||"Ev").slice(0,40),ilce:String(h.ilce||"").slice(0,60)}:HOME0}
 function short(){return home().name.split(/[ (,]/)[0]}
 /* Kullanıcının içe aktardığı yerler: her gösterimde yeniden doğrulanır ve kaçışlanır (yedekten gelen veri de güvenilmez) */
-function num(v,l){v=+v;return (isFinite(v)&&Math.abs(v)<=l)?v:null}
+function num(v,l){if(v==null||v===""||typeof v==="object")return null;v=+v;return (isFinite(v)&&Math.abs(v)<=l)?v:null}
 function sanU(p,k){var lat=num(p&&p.lat,90),lon=num(p&&p.lon,180);if(lat==null||lon==null)return null;var t=function(x,m){return esc(String(x==null?"":x).slice(0,m||300))};
  return {id:"u"+k,n:t(p.n,60)||"Nokta",short:t(p.n,18),ilce:t(p.ilce,40)||"—",lat:lat,lon:lon,acc:"Y",ai:1,ty:/^[wfcvtr]$/.test(p.ty)?p.ty:"v",tier:[1,2,3].indexOf(+p.tier)>-1?+p.tier:2,
   why:t(p.why)+" <i class='mut'>(Yapay zekâ önerisi, doğrulanmadı.)</i>",water:t(p.water),route:t(p.route),risk:t(p.risk)||"Doğrulanmadı."}}
@@ -72,7 +72,7 @@ var P = {
 };
 function ic(n,c){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'+(c?' class="'+c+'"':'')+'>'+(P[n]||P.book)+'</svg>'}
 window.HKic = ic;
-function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 
 /* ---------- Coğrafya yardımcıları ---------- */
 function rad(d){return d*Math.PI/180}
@@ -494,12 +494,14 @@ R["card"] = function(){
   main.innerHTML=h;$("#pr").onclick=function(){var w=window.open("","_blank");if(!w){window.print();return}w.document.write('<html><head><meta charset="utf-8"><title>Cep kartı</title><style>b{color:#000}</style></head><body style="font-family:sans-serif">'+$("#pc").outerHTML+'</body></html>');w.document.close();w.print()};
 };
 R["credits"] = function(){setHead("FOTOĞRAF ATIFLARI","Wikimedia Commons",true);tabOn("");main.innerHTML=D.photoCredits?D.photoCredits():""};
+/* Yedeğe giren ve yedekten alınan anahtarlar aynı listedir; son GPS konumu (hk_lastfix) gibi anahtarlar dışarı çıkmaz */
+var BK_OK=/^hk_(team|rally|kod|home|il|assets|uplaces|uavoid|night|big|pace|pf|mz|gopen|seen|setupDone|ck_[a-z0-9]+)$/;
 R["backup"] = function(){
   setHead("YEDEKLE / TAŞI","Ekip kartı, buluşma noktaları, listeler",true);tabOn("");
-  var data={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf("hk_")===0)data[k]=localStorage.getItem(k)}
+  var data={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(BK_OK.test(k))data[k]=localStorage.getItem(k)}
   main.innerHTML='<p>Bu metni kopyala ve diğer telefonda aynı ekrana yapıştır. Ekip lideri bilgileri bir kez doldurup herkese dağıtabilir.</p><div class="card warn">Bu metin <b>şifresizdir</b>; telefon numaralarını, sağlık notlarını ve ev konumunu içerir. Yalnızca yüz yüze ya da güvendiğin bir kanaldan ver; yapıştırdıktan sonra panoyu temizle. Belge kasası ayrıca, şifreli olarak yedeklenir.</div><textarea class="in mono" id="bx" rows="8" style="font-size:.75em">'+esc(JSON.stringify(data))+'</textarea><div class="btns"><button class="btn" id="cp">Kopyala</button><button class="btn pri" id="ld">Yapıştırılanı yükle</button></div>';
   $("#cp").onclick=function(){var t=$("#bx");t.select();try{navigator.clipboard.writeText(t.value)}catch(e){document.execCommand("copy")}};
-  $("#ld").onclick=function(){try{var o=JSON.parse($("#bx").value),OK=/^hk_(team|rally|kod|home|il|assets|uplaces|uavoid|night|big|pace|pf|mz|gopen|seen|setupDone|ck_[a-z0-9]+)$/,n=0;
+  $("#ld").onclick=function(){try{var o=JSON.parse($("#bx").value),OK=BK_OK,n=0;
     if(!o||typeof o!=="object")throw 0;if(!confirm("Bu telefondaki ekip, buluşma ve liste bilgileri yedektekilerle değiştirilecek. Devam edilsin mi?"))return;
     var TY={team:"array",rally:"array",kod:"string",home:"object",il:"number",assets:"object",uplaces:"array",uavoid:"array",night:"boolean",big:"boolean",pace:"number",pf:"string",mz:"number",gopen:"object",seen:"boolean",setupDone:"boolean"},ty=function(v){return v===null?"null":Array.isArray(v)?"array":typeof v};
     Object.keys(o).forEach(function(k){if(OK.test(k)&&typeof o[k]==="string"&&o[k].length<200000){try{var v=JSON.parse(o[k]),b=k.slice(3),want=/^ck_/.test(b)?"object":TY[b];if(ty(v)!==want)return;if(want==="array"&&!v.every(function(x){return x&&typeof x==="object"||typeof x==="string"}))return;localStorage.setItem(k,o[k]);n++}catch(e){}}});alert(n+" kayıt yüklendi.");location.hash="#/"}catch(e){alert("Metin okunamadı. Eksiksiz yapıştırdığından emin ol.")}};
@@ -510,9 +512,9 @@ function route(){
   cleanup();
   var hs=location.hash.replace(/^#\/?/,""),q="";
   if(hs.indexOf("?")>-1){q=hs.split("?")[1];hs=hs.split("?")[0]}
-  if(D.alias&&D.alias[hs]){location.replace("#/"+D.alias[hs]);return}
+  if(D.alias&&Object.prototype.hasOwnProperty.call(D.alias,hs)){location.replace("#/"+D.alias[hs]);return}
   if(!hs&&!store.get("seen",false)){store.set("seen",true);location.replace("#/setup");return}
-  var parts=hs.split("/"),fn=R[hs];
+  var parts=hs.split("/"),fn=Object.prototype.hasOwnProperty.call(R,hs)?R[hs]:null;
   if(!fn&&parts.length>1){var f2=R[parts[0]+"/*"];if(f2){try{f2(parts.slice(1).join("/"),q)}catch(e){location.replace("#/");}window.scrollTo(0,0);return}}
   try{(fn||R[""])(q)}catch(e){main.innerHTML='<a class="sosbig" href="tel:112">112 · ACİL ÇAĞRI</a><div class="card warn">Bu sayfa açılamadı (kayıtlı veri bozuk olabilir). <a href="#/g/kanama">İlk yardım</a> · <a href="#/backup">Veriyi düzelt</a></div>'}window.scrollTo(0,0);
 }

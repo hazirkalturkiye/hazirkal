@@ -91,17 +91,17 @@ function bindAI(){
 function res(t,ok){var e=$("#pres");if(e)e.innerHTML='<div class="card '+(ok?"tip":"warn")+'">'+t+'</div>'}
 /* Güvenli içe aktarma: sadece beklenen alanlar, düz metin, sınırlı uzunluk, geçerli koordinat */
 function txt(v,max){return String(v==null?"":v).replace(/[\u0000-\u001f<>]/g," ").slice(0,max||300)}
-function num(v,lim){v=+v;return (isFinite(v)&&Math.abs(v)<=lim)?+v.toFixed(5):null}
+function num(v,lim){if(v==null||v===""||typeof v==="object")return null;v=+v;return (isFinite(v)&&Math.abs(v)<=lim)?+v.toFixed(5):null}
 function imp(raw){var o;raw=String(raw||"");var a=raw.indexOf("{"),b=raw.lastIndexOf("}");
  if(a<0||b<a){res("Metinde JSON bulunamadı. Yapay zekâdan <b>sadece JSON</b> vermesini iste.");return}
  try{o=JSON.parse(raw.slice(a,b+1))}catch(e){res("JSON okunamadı: "+txt(e.message,80)+". Cevabı eksiksiz kopyaladığından emin ol.");return}
  var ps=Array.isArray(o.places)?o.places.slice(0,60):[],out=[],av=[],hm=A.home(),bad=0,far=0;
- ps.forEach(function(p,k){var lat=num(p.lat,90),lon=num(p.lon,180);if(lat==null||lon==null||!p.n){bad++;return}
+ ps.forEach(function(p,k){if(!p||typeof p!=="object"){bad++;return}var lat=num(p.lat,90),lon=num(p.lon,180);if(lat==null||lon==null||!p.n){bad++;return}
   var km=A.dist(hm,{lat:lat,lon:lon});if(km>250){far++;return}
   out.push({id:"u"+k+"_"+Math.random().toString(36).slice(2,7),n:txt(p.n,60),short:txt(p.n,18),ilce:txt(p.ilce,40)||"—",lat:lat,lon:lon,acc:"Y",ai:1,
    ty:/^[wfcvtr]$/.test(p.ty)?p.ty:"v",tier:[1,2,3].indexOf(+p.tier)>-1?+p.tier:2,
    why:txt(p.why),water:txt(p.water),route:txt(p.route),risk:txt(p.risk)||"Doğrulanmadı."})});
- (Array.isArray(o.avoid)?o.avoid.slice(0,30):[]).forEach(function(p){var lat=num(p.lat,90),lon=num(p.lon,180);if(lat!=null&&lon!=null)av.push({n:txt(p.n,60),lat:lat,lon:lon})});
+ (Array.isArray(o.avoid)?o.avoid.slice(0,30):[]).forEach(function(p){if(!p||typeof p!=="object")return;var lat=num(p.lat,90),lon=num(p.lon,180);if(lat!=null&&lon!=null)av.push({n:txt(p.n,60),lat:lat,lon:lon})});
  if(!out.length){res("Geçerli nokta bulunamadı"+(bad?" ("+bad+" kayıtta koordinat ya da ad eksik)":"")+(far?" ("+far+" nokta 250 km'den uzak)":"")+".");return}
  store.set("uplaces",out);store.set("uavoid",av);
  res("<b>"+out.length+" nokta</b> ve "+av.length+" kaçınılacak yer eklendi"+(bad?", "+bad+" hatalı kayıt atlandı":"")+(far?", "+far+" uzak nokta atlandı":"")+". <a href='#/p'>Yerler</a> sekmesinde görebilirsin.",true);

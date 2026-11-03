@@ -2,6 +2,9 @@
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
+ErrorDocument 413 /gonderilemedi.html
+# Hiçbir istek gövdesi 64 KB'yi geçemez (form dahil)
+LimitRequestBody 65536
 AddDefaultCharset utf-8
 AddType image/svg+xml .svg
 AddType font/woff2 .woff2
@@ -20,7 +23,6 @@ RedirectMatch 404 "/\.(?!well-known/)"
 </FilesMatch>
 <Files "gonder.php">
   Require method GET HEAD POST
-  LimitRequestBody 65536
 </Files>
 
 # Yalnızca GET, HEAD ve POST; PUT, DELETE, PATCH, OPTIONS gibi yöntemler reddedilir (sunucuya dosya yüklenemez)
@@ -28,8 +30,10 @@ Require method GET HEAD POST
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # gonder.php yalnızca kök dizinde çalışır; alt klasördeki kopyası 404
+  RewriteRule ^.+/gonder\.php$ - [R=404,L]
   # Her şey https://hazirkal.com adresine (www, http ve hazirkal.aikidofestival.com dahil). SSL doğrulaması için .well-known hariç.
-  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteCond %{REQUEST_URI} !^/\.well-known/(acme-challenge|pki-validation)/
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} !^hazirkal\.com$ [NC]
   RewriteRule ^ https://hazirkal.com%{REQUEST_URI} [L,R=301]
@@ -40,6 +44,8 @@ Require method GET HEAD POST
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "no-referrer"
   Header always set X-Frame-Options "DENY"
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   Header always set Cross-Origin-Opener-Policy "same-origin"
   Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"

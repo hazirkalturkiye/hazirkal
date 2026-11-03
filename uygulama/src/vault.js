@@ -32,10 +32,11 @@ function newId(){return "f"+Array.prototype.map.call(rnd(9),function(b){return (
 var IDOK=/^[A-Za-z0-9_-]{1,40}$/,ITMIN=310000,ITMAX=2000000;
 function itOk(n){return n>=ITMIN&&n<=ITMAX}
 function rec(f){if(!f||!IDOK.test(String(f.id)))throw new Error("Yedek dosyası bozuk.");return {id:String(f.id),v:f.v===2?2:undefined,iv:unb64(f.iv),ct:unb64(f.ct).buffer,miv:unb64(f.miv),mct:unb64(f.mct).buffer}}
-function lock(){KEY=null;clearTimeout(idle);var lb=$("#vview");if(lb)closeView();if(location.hash.indexOf("#/vault")===0)R.vault()}
+function inVault(){return /^#\/vault(\?|$)/.test(location.hash)}
+function lock(){KEY=null;clearTimeout(idle);var lb=$("#vview");if(lb)closeView();if(inVault())R.vault()}
 function touch(){clearTimeout(idle);idle=setTimeout(lock,180000)}
 document.addEventListener("visibilitychange",function(){if(document.hidden)lock()});
-window.addEventListener("hashchange",function(){if(location.hash.indexOf("#/vault")!==0&&(KEY||$("#vview"))){KEY=null;clearTimeout(idle);closeView()}});
+window.addEventListener("hashchange",function(){if(!inVault()&&(KEY||$("#vview"))){KEY=null;clearTimeout(idle);closeView()}});
 /* ---- Sayfa ---- */
 R["vault"]=function(){A.setHead("BELGE KASASI","Şifreli · sadece bu telefonda",true);A.tabOn("plan");
  if(!C||!window.indexedDB){A.main.innerHTML='<div class="card warn">Bu tarayıcı şifrelemeyi desteklemiyor. Uygulamayı Chrome\'da, ana ekrana eklenmiş hâliyle (https adresinden) aç.</div>';return}
