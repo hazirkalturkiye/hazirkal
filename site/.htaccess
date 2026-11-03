@@ -19,9 +19,12 @@ RedirectMatch 404 "/\.(?!well-known/)"
   Require all denied
 </FilesMatch>
 <Files "gonder.php">
-  Require all granted
+  Require method GET HEAD POST
   LimitRequestBody 65536
 </Files>
+
+# Yalnızca GET, HEAD ve POST; PUT, DELETE, PATCH, OPTIONS gibi yöntemler reddedilir (sunucuya dosya yüklenemez)
+Require method GET HEAD POST
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
