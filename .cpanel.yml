@@ -1,0 +1,10 @@
+---
+# GoDaddy cPanel › Git Version Control › "Deploy HEAD Commit" bu adımları çalıştırır.
+# site/ → hazirkal.com, yayin/uygulama/ → uygulama.hazirkal.com (ikisi de public_html dışında)
+deployment:
+  tasks:
+    - export SITE=$HOME/hazirkal.com/
+    - export APP=$HOME/uygulama.hazirkal.com/
+    - /bin/mkdir -p $SITE $APP
+    - /bin/cp -R site/. $SITE
+    - /bin/cp -R yayin/uygulama/. $APP

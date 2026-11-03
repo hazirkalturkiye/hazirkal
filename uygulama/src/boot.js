@@ -1,0 +1,1 @@
+window.HKAPP.boot();
